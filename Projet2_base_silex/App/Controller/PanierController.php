@@ -51,28 +51,37 @@ class PanierController implements ControllerProviderInterface
     /**
      * @param Application $app
      */
-    public function addPanier(Application $app, $id){
+    public function addPanier(Application $app,Request $request){
+        $stock=$request->get('stock');
+        $id=$request->get('id');
         $this->panierModel = new PanierModel($app);
         $this->produitModel= new ProduitModel($app);
+
         $donnees=$this->produitModel->getProduit($id);
         $quantite=$this->panierModel->getQuantite($id,$app['session']->get('idUser'));
         if((int)$quantite==null){
-            $this->panierModel->addLigneCommande($donnees,$app['session']->get('idUser'));
+            $this->panierModel->addLigneCommande($donnees,$app['session']->get('idUser'),$stock);
         }else{
-            $this->panierModel->incrementQuantite($id,$app['session']->get('idUser'));
+            $this->panierModel->incrementQuantite($id,$app['session']->get('idUser'),$stock);
         }
         return $this->showPanier($app);
     }
 
-    public function deletePanier(Application $app, $id){
+    public function deletePanier(Application $app,Request $request){
+        $id=$request->get('id');
+        $delete_quantite=$request->get('delete_quantite');
         $this->panierModel = new PanierModel($app);
-        $quantite=$this->panierModel->getQuantite($id,$app['session']->get('idUser'));
-        $this->panierModel->decrementQuantite($id,$app['session']->get('idUser'));
-        if((int)$quantite>1){
-            $this->panierModel->decrementQuantite($id,$app['session']->get('idUser'));
-        }else{
+        $quantite=$this->panierModel->getQuantiteIdPanier($id);
+        if((int)$quantite['quantite']<=$delete_quantite){
             $this->panierModel->deleteLigneCommande($id);
+        }else{
+           $this->panierModel->decrementQuantite($id,$delete_quantite);
         }
+//        $data['quantite']=$quantite;
+//        $data['id']=$id;
+//        $data['delete_quantite']=$delete_quantite;
+//        return $app["twig"]->render('frontOff/ProduitPanier/showquantite.html.twig',['data'=>$data]);
+
         return $this->showPanier($app);
     }
 
@@ -84,7 +93,11 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/show', 'App\Controller\PanierController::showPanier')->bind('panier.show');
         $controllers->get('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
+        $controllers->post('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
+        $controllers->post('/add', 'App\Controller\PanierController::addPanier')->bind('panier.add');
         $controllers->get('/delete/{id}', 'App\Controller\PanierController::deletePanier')->bind('panier.delete')->assert('id', '\d+');
+        $controllers->post('/delete/{id}', 'App\Controller\PanierController::deletePanier')->bind('panier.delete')->assert('id', '\d+');
+        $controllers->post('/delete', 'App\Controller\PanierController::deletePanier')->bind('panier.delete');
 
 
         return $controllers;

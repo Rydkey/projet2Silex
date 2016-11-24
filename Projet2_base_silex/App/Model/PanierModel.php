@@ -44,7 +44,7 @@ class PanierModel {
     /**
      * @param $app
      */
-    public function addLigneCommande($donnees,$idUser){
+    public function addLigneCommande($donnees,$idUser,$stock){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->insert('paniers')
             ->values([
@@ -53,7 +53,7 @@ class PanierModel {
                 'user_id' => '?',
                 'produit_id' => '?'
             ])
-            ->setParameter(0, 1)
+            ->setParameter(0, $stock)
             ->setParameter(1, $donnees['prix'])
             ->setParameter(2, $idUser)
             ->setParameter(3, $donnees['id'])
@@ -83,7 +83,7 @@ class PanierModel {
             ->where('user_id= ?','produit_id= ?')
             ->setParameter(0,$idUser)
             ->setParameter(1,$id);
-        return $queryBuilder->execute()->fetchAll();
+        return $queryBuilder->execute()->fetch();
 
     }
 
@@ -91,7 +91,7 @@ class PanierModel {
      * @param $id
      * @param $get
      */
-    public function incrementQuantite($id, $idUser)
+    public function incrementQuantite($id, $idUser,$stock)
     {
         (int)$quantite=(int)$this->getQuantite($id,$idUser);
         $queryBuilder = new QueryBuilder($this->db);
@@ -99,7 +99,7 @@ class PanierModel {
             ->update('paniers')
             ->set('quantite','quantite+?')
             ->where('user_id= ?','produit_id= ?')
-            ->setParameter(0,$quantite)
+            ->setParameter(0,$stock)
             ->setParameter(1,$idUser)
             ->setParameter(2,$id);
         return $queryBuilder->execute();
@@ -109,17 +109,26 @@ class PanierModel {
      * @param $id
      * @param $idUser
      */
-    public function decrementQuantite($id, $idUser)
+    public function decrementQuantite($id,$delete_quantite)
     {
-        (int)$quantite=(int)$this->getQuantite($id,$idUser);
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('paniers')
-            ->set('quantite','?-1')
-            ->where('user_id= ?','produit_id= ?')
-            ->setParameter(0,$quantite)
-            ->setParameter(1,$idUser)
-            ->setParameter(2,$id);
+            ->set('quantite','quantite-?')
+            ->where('id= ?')
+            ->setParameter(0,$delete_quantite)
+            ->setParameter(1,$id);
         return $queryBuilder->execute();
+    }
+
+    public function getQuantiteIdPanier($id)
+    {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('quantite')
+            ->from('paniers')
+            ->where('id= ?')
+            ->setParameter(0,$id);
+        return $queryBuilder->execute()->fetch();
     }
 }

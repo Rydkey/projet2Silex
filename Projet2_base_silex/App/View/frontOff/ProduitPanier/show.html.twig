@@ -13,6 +13,14 @@
             </thead>
             <tbody>
             {% for produit in data if data is not empty %}
+                {% set breakloop = false %}
+                {% set panierStock = 0 %}
+                {% for ligne in panier if panier is not empty and breakloop==false%}
+                    {% if produit.id==ligne.id %}
+                        {% set panierStock=ligne.quantite %}
+                        {% set breakloop=true %}
+                    {% endif %}
+                {% endfor %}
 
                 <tr class="">
                     <td class="text-capitalize"><h4>{{produit.nom}}</h4></td><td>{{produit.libelle}}</td><td>{{produit.prix}}</td>
@@ -27,23 +35,30 @@
                     {% endif %}
                     {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
                         <td class="text-center">
-                            <select name="stock" class="">
-                                    <option value="quantité" {% if produit.stock is not defined %}selected{% endif %}>Quantité</option>
-                                {% if produit.stock > 10 %}
-                                    {% for i in 1..10%}
-                                        <option value="{{ i }}">
-                                            {{ i }}
-                                        </option>
-                                    {% endfor %}
+                            {% if produit.stock!=panierStock %}
+                            <form action="{{ path('panier.add') }}" method="post">
+                                <input name="id" type="hidden" value="{{ produit.id }}">
+                                <select name="stock" class="form-control ">
+                                        <option value="quantité" {% if produit.stock is not defined %}selected{% endif %}>quantité</option>
+                                            {% if (produit.stock-panierStock) > 10 %}
+                                                {% for i in 1..10%}
+                                                    <option value="{{ i }}">
+                                                        {{ i }}
+                                                    </option>
+                                                {% endfor %}
+                                            {% else %}
+                                                {% for i in 1..(produit.stock-panierStock)%}
+                                                    <option value="{{ i }}">
+                                                        {{ i }}
+                                                    </option>
+                                                {% endfor %}
+                                            {% endif %}
+                                </select>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-plus"></span>Ajouter</button>
+                            </form>
                                 {% else %}
-                                    {% for i in 1..produit.stock%}
-                                        <option value="{{ i }}">
-                                            {{ i }}
-                                        </option>
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                            <a href="{{ path('panier.add', {id: produit.id}) }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-plus"></span>Ajouter</button></a>
+                                Plus de livres en stock
+                            {% endif %}
                         </td>
                     {% endif %}
                 </tr>
@@ -75,16 +90,19 @@
                     </td>
                     {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
                         <td>
-                                <select name="delete_quantite" class=" ">
-                                    {% for i in 1..ligne.quantite%}
-                                        <option value="{{ i }}">
-                                            {{ i }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                                <a href="{{ path('panier.delete', {id: ligne.idPanier}) }}">
-                                    <button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button>
-                                </a>
+                            <div class="row">
+                                <form method="POST" action="{{ path('panier.delete') }}">
+                                    <input name="id" type="hidden" value="{{ ligne.idPanier }}">
+                                    <select name="delete_quantite" class="form-control ">
+                                        {% for i in 1..ligne.quantite%}
+                                            <option value="{{ i }}">
+                                                {{ i }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button>
+                                </form>
+                            </div>
                         </td>
                     {% endif %}
                 </tr>
