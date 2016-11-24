@@ -1,0 +1,25 @@
+body{
+    padding-top: 50px;
+}
+
+th{
+    background-color: grey ;
+    color: white;
+    font-size: 18px;
+}
+
+.table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+
+.row{
+    background-color: white;
+}
+
+.corp{
+    -moz-box-shadow: 10px 10px 10px 10px #656565;
+    -webkit-box-shadow: 10px 10px 10px 10px #656565;
+    -o-box-shadow: 10px 10px 10px 10px #656565;
+    box-shadow: 10px 10px 10px 10px #656565;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=10);
+}

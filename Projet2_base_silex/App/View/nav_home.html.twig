@@ -1,0 +1,39 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid col-lg-12 ">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{{ path('produit.index') }}">
+                <img class=""  style="width: 50px;height: 50px" src="{{asset('images/manga.png')}}" alt="">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('panier.show') }}">afficher les produits</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li id="myBtn"><a href="{{ path('user.login')  }}"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a></li>
+            </ul>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function(){
+                $("#myBtn").click(function(){
+                    $("#myModal").modal();
+                });
+            });
+        </script>
+
+    </div>
+    </div>
+</nav>

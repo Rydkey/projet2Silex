@@ -1,0 +1,98 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+<div class="row col-lg-12">
+    <div class="col-lg-8">
+        <table class="table table-hover">
+            <caption><h4>Nos produits</h4></caption>
+            <thead>
+            <tr class="table table-responsive text-capitalize"><th>nom</th><th>type</th><th>prix</th><th>photo</th>
+                {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+                    <th class="text-center">opérations</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for produit in data if data is not empty %}
+
+                <tr class="">
+                    <td class="text-capitalize"><h4>{{produit.nom}}</h4></td><td>{{produit.libelle}}</td><td>{{produit.prix}}</td>
+                    <td>
+                        <img style="width:90px;height:120px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" >
+                    </td>
+                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+                        <td class="text-center">
+                            <a href="{{ path('produit.edit', {id: produit.id}) }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon glyphicon-edit"></span>Modifier</button></a>
+                            <a href="{{ path('produit.delete', {id: produit.id}) }}"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button></a>
+                        </td>
+                    {% endif %}
+                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+                        <td class="text-center">
+                            <select name="stock" class="">
+                                    <option value="quantité" {% if produit.stock is not defined %}selected{% endif %}>Quantité</option>
+                                {% if produit.stock > 10 %}
+                                    {% for i in 1..10%}
+                                        <option value="{{ i }}">
+                                            {{ i }}
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for i in 1..produit.stock%}
+                                        <option value="{{ i }}">
+                                            {{ i }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            <a href="{{ path('panier.add', {id: produit.id}) }}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-plus"></span>Ajouter</button></a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+    <div class="col-lg-4 ">
+        <table class="table table-responsive table-bordered">
+            <caption><h4>Mon panier</h4></caption>
+            <thead>
+            <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix</th><th>photo</th>
+                {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+                    <th>opérations</th>
+                {% endif %}
+                {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+                    <th>opérations</th>
+                {% endif %}
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for ligne in panier if panier is not empty %}
+                <tr>
+                    <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix}}</td>
+                    <td>
+                        <img style="width:40px;height:40px" src="{{asset('images/')}}{{ligne.photo}}" alt="image de {{ligne.nom}}" >
+                    </td>
+                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+                        <td>
+                                <select name="delete_quantite" class=" ">
+                                    {% for i in 1..ligne.quantite%}
+                                        <option value="{{ i }}">
+                                            {{ i }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <a href="{{ path('panier.delete', {id: ligne.idPanier}) }}">
+                                    <button type="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button>
+                                </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

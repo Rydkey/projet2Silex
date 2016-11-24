@@ -1,0 +1,66 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    <hr>
+    <form method="post" action="{{ path('produit.validFormAdd') }}">
+    <div class="row corp modal-content col-lg-6 col-lg-offset-3">
+        <fieldset>
+            <legend>Creer un produit (twig)</legend>
+            <div class="form-group">
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-xs-2 col-form-label">Nom</label>
+                    <div class="col-xs-10">
+                        <input class="form-control"name="nom"  type="text"  size="18" value="{{donnees.nom|default('')}}" />
+                        {% if erreurs.nom is defined %}
+                            <div class="alert alert-danger ">
+                                <strong>Erreur!</strong> {{erreurs.nom}}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-xs-2 col-form-label">Type</label>
+                    <div class="col-xs-10">
+                        <select name="typeProduit_id" class="form-control ">
+                            {% if  donnees.typeProduit_id is not defined or donnees.typeProduit_id is empty   %}
+                                <option value="">Veuillez sélectionner un style</option>
+                            {% endif %}
+                            {% for typeProduit in typeProduits %}
+                                <option value="{{ typeProduit.id }}"
+                                        {% if donnees.typeProduit_id is defined and typeProduit.id == donnees.typeProduit_id %}selected{% endif %}>
+                                    {{ typeProduit.libelle }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-xs-2 col-form-label">Prix</label>
+                    <div class="col-xs-10">
+                        <input name="prix" class="form-control" type="text"  size="18" 	value="{{donnees.prix|default('')}}"/>
+                        {% if erreurs.prix is defined %}
+                            <div class="alert alert-danger">
+                                <strong>Erreur!</strong> {{erreurs.prix}}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-xs-2 col-form-label">Photo</label>
+                    <div class="col-xs-10">
+                        <input name="photo" class="form-control" type="text"  size="18" value="{{donnees.photo|default('')}}"/>
+                        {% if erreurs.photo is defined %}
+                            <div class="alert alert-danger">
+                                <strong>Erreur!</strong> {{erreurs.photo}}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            <hr>
+                <button type="submit" class="btn btn-success btn-block" value="Se Connecter"><span class="glyphicon glyphicon-plus"></span> Crée</button>
+            <hr>
+            </div>
+        </fieldset>
+    </div>
+</form>
+{% endblock %}
