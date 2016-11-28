@@ -114,12 +114,13 @@
                         Valeur total : {{ prix_total }}
                     </td>
                     <td>
-                        <a><button type="submit" class="btn btn-sm btn-success"><span class="glyphicons glyphicon glyphicons-shopping-cart"></span> check-out</button></a>
+                        <a href="{{ path('Commande.ValidCommand') }}"><button type="submit" class="btn btn-sm btn-success"><span class="glyphicons glyphicon glyphicons-shopping-cart"></span> check-out</button></a>
                     </td>
                 </tr>
             {% endif %}
             <tbody>
         </table>
+
     </div>
 </div>
 {% endif %}

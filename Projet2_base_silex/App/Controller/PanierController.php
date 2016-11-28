@@ -45,7 +45,7 @@ class PanierController implements ControllerProviderInterface
         $this->produitModel = new ProduitModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         $produits = $this->produitModel->getAllProduits();
-        return $app["twig"]->render('frontOff/ProduitPanier/ValidCommand.html.twig',['data'=>$produits, 'panier'=> $produitsPanier]);
+        return $app["twig"]->render('frontOff/ProduitPanier/show.html.twig',['data'=>$produits, 'panier'=> $produitsPanier]);
     }
 
     /**

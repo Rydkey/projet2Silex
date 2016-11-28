@@ -32,13 +32,12 @@ class CommandeController implements ControllerProviderInterface
      *
      * @return ControllerCollection A ControllerCollection instance
      */
-    private $produitModel;
     private $panierModel;
 
     public function ValidCommand(Application $app){
         $this->panierModel = new PanierModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
-        return $app["twig"]->render('frontOff/ProduitPanier/ValidCommand.html.twig',['panier'=>$produitsPanier]);
+        return $app["twig"]->render('frontOff/Commande/ValidCommand.html.twig',['panier'=>$produitsPanier]);
     }
 
 
