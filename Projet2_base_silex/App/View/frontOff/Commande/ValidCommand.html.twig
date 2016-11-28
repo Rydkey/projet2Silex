@@ -1,0 +1,49 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+        <div class="col-lg-4 ">
+            <table class="table table-responsive table-bordered">
+                <caption><h4>Récapitulatif</h4></caption>
+                <thead>
+                <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix</th><th>photo</th>
+                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+                        <th>opérations</th>
+                    {% endif %}
+                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+                        <th>opérations</th>
+                    {% endif %}
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for ligne in panier if panier is not empty %}
+                    <tr>
+                        <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix}}</td>
+                        <td>
+                            <img style="width:40px;height:40px" src="{{asset('images/')}}{{ligne.photo}}" alt="image de {{ligne.nom}}" >
+                        </td>
+                        {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+                            <td>
+                                <div class="row">
+                                    <form method="POST" action="{{ path('panier.delete') }}">
+                                        <input name="id" type="hidden" value="{{ ligne.idPanier }}">
+                                        <select name="delete_quantite" class="form-control ">
+                                            {% for i in 1..ligne.quantite%}
+                                                <option value="{{ i }}">
+                                                    {{ i }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+        </div>
+        </div>
+    {% endif %}
+{% endblock %}

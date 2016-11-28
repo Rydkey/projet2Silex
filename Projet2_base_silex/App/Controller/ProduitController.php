@@ -30,7 +30,7 @@ class ProduitController implements ControllerProviderInterface
     public function show(Application $app) {
         $this->produitModel = new ProduitModel($app);
         $produits = $this->produitModel->getAllProduits();
-        return $app["twig"]->render('backOff/Produit/show.html.twig',['data'=>$produits]);
+        return $app["twig"]->render('backOff/Produit/ValidCommand.html.twig',['data'=>$produits]);
     }
 
     public function add(Application $app) {
