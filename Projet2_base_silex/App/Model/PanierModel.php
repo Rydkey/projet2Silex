@@ -5,6 +5,8 @@ namespace App\Model;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
+//bite
+
 class PanierModel {
 
     private $db;
