@@ -38,7 +38,7 @@
                             {% if produit.stock!=panierStock %}
                             <form action="{{ path('panier.add') }}" method="post">
                                 <input name="id" type="hidden" value="{{ produit.id }}">
-                                <select name="stock" class="form-control ">
+                                <select name="stock" class="">
                                             {% if (produit.stock-panierStock) > 10 %}
                                                 {% for i in 1..10%}
                                                     <option value="{{ i }}">
@@ -94,7 +94,7 @@
                             <div class="row">
                                 <form method="POST" action="{{ path('panier.delete') }}">
                                     <input name="id" type="hidden" value="{{ ligne.idPanier }}">
-                                    <select name="delete_quantite" class="form-control ">
+                                    <select name="delete_quantite" class="">
                                         {% for i in 1..ligne.quantite%}
                                             <option value="{{ i }}">
                                                 {{ i }}
