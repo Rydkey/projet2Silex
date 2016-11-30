@@ -1,50 +1,38 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
     {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-        <div class="col-lg-4 ">
+        <div class="row">
+            <div class="col-md-6 col-lg-offset-3">
             <table class="table table-responsive table-bordered">
-                <caption><h4>Récapitulatif</h4></caption>
+                <caption><h4>Mon panier</h4></caption>
                 <thead>
-                <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix</th><th>photo</th>
-                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-                        <th>opérations</th>
-                    {% endif %}
-                    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
-                        <th>opérations</th>
-                    {% endif %}
-
+                <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix total</th><th>photo</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% set prix_total=0 %}
                 {% for ligne in panier if panier is not empty %}
+                    {% set prix_total=prix_total+ligne.prix*ligne.quantite %}
                     <tr>
-                        <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix}}</td>
+                        <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix*ligne.quantite}}</td>
                         <td>
                             <img style="width:40px;height:40px" src="{{asset('images/')}}{{ligne.photo}}" alt="image de {{ligne.nom}}" >
                         </td>
-                        {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
-                            <td>
-                                <div class="row">
-                                    <form method="POST" action="{{ path('panier.delete') }}">
-                                        <input name="id" type="hidden" value="{{ ligne.idPanier }}">
-                                        <select name="delete_quantite" class="form-control ">
-                                            {% for i in 1..ligne.quantite%}
-                                                <option value="{{ i }}">
-                                                    {{ i }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                        <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button>
-                                    </form>
-                                </div>
-                            </td>
-                        {% endif %}
                     </tr>
                 {% endfor %}
+                {% if prix_total!=0 %}
+                    <tr>
+                        <td colspan="3" >
+                            Valeur total : {{ prix_total }}
+                        </td>
+                        <td>
+                            <a href="{{ path('Commande.ValidCommand') }}"><button type="submit" class="btn btn-sm btn-success"><span class="glyphicons glyphicon glyphicons-shopping-cart"></span>Passer la commande</button></a>
+                        </td>
+                    </tr>
+                {% endif %}
                 <tbody>
             </table>
-            <a href="#"><button class="btn btn-lg btn-success">Valider Commande</button></a>
-        </div>
+            </div>
         </div>
     {% endif %}
 {% endblock %}

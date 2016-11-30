@@ -42,8 +42,6 @@ class CommandeController implements ControllerProviderInterface
     }
 
     public function AddCommand(Application $app, Request $request){
-        $stock=$request->get('stock');
-        $id=$request->get('id');
         $this->panierModel = new PanierModel($app);
         $this->commandeModel = new CommandeModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));

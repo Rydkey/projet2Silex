@@ -70,7 +70,7 @@
         <table class="table table-responsive table-bordered">
             <caption><h4>Mon panier</h4></caption>
             <thead>
-            <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix</th><th>prix total</th><th>photo</th>
+            <tr class="table text-capitalize"><th>nom</th><th>quantité</th><th>prix total</th><th>photo</th>
                 {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
                     <th>opérations</th>
                 {% endif %}
@@ -85,7 +85,7 @@
             {% for ligne in panier if panier is not empty %}
                 {% set prix_total=prix_total+ligne.prix*ligne.quantite %}
                 <tr>
-                    <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix}}</td><td>{{ligne.prix*ligne.quantite}}</td>
+                    <td>{{ligne.nom}}</td><td>{{ligne.quantite}}</td><td>{{ligne.prix*ligne.quantite}}</td>
                     <td>
                         <img style="width:40px;height:40px" src="{{asset('images/')}}{{ligne.photo}}" alt="image de {{ligne.nom}}" >
                     </td>
@@ -110,7 +110,7 @@
             {% endfor %}
             {% if prix_total!=0 %}
                 <tr>
-                    <td colspan="5" >
+                    <td colspan="4" >
                         Valeur total : {{ prix_total }}
                     </td>
                     <td>
