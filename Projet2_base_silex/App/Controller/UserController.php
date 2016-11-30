@@ -34,7 +34,7 @@ class UserController implements ControllerProviderInterface {
 			$app['session']->set('login', $data['login']);
 			$app['session']->set('logged', 1);
 			$app['session']->set('idUser',$data['id']);
-			return $app->redirect($app["url_generator"]->generate("produit.index"));
+			return $app->redirect($app["url_generator"]->generate("accueil"));
 		}
 		else
 		{
@@ -46,7 +46,7 @@ class UserController implements ControllerProviderInterface {
 	{
 		$app['session']->clear();
 		$app['session']->getFlashBag()->add('msg', 'vous êtes déconnecté');
-		return $app->redirect($app["url_generator"]->generate("produit.index"));
+		return $app->redirect($app["url_generator"]->generate("accueil"));
 	}
 
 	public function connect(Application $app) {
