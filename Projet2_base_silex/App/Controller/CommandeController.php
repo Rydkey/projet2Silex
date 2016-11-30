@@ -33,11 +33,21 @@ class CommandeController implements ControllerProviderInterface
      * @return ControllerCollection A ControllerCollection instance
      */
     private $panierModel;
+    private $commandeModel;
 
     public function ValidCommand(Application $app){
         $this->panierModel = new PanierModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         return $app["twig"]->render('frontOff/Commande/ValidCommand.html.twig',['panier'=>$produitsPanier]);
+    }
+
+    public function AddCommand(Application $app, Request $request){
+        $stock=$request->get('stock');
+        $id=$request->get('id');
+        $this->panierModel = new PanierModel($app);
+        $this->commandeModel = new CommandeModel($app);
+        $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
+        $this->commandeModel->AddCommand($produitsPanier,$app['session']->get('idUser'));
     }
 
 
@@ -46,6 +56,7 @@ class CommandeController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
         
         $controllers->get('/ValidCommand', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
+        $controllers->get('/AddCommand', 'App\Controller\CommandeController::AddCommand')->bind('Commande.AddCommand');
 
         return $controllers;
     }

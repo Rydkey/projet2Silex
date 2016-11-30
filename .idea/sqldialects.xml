@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Projet2_base_silex/S3projet2_v16_1.sql" dialect="MySQL" />
+  </component>
+</project>
