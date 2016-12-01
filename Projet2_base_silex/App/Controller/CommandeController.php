@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;   // pour utiliser request
 use App\Model\ProduitModel;
 use App\Model\TypeProduitModel;
 use App\Model\PanierModel;
+use App\Model\CommandeModel;
 
 use Symfony\Component\Validator\Constraints as Assert;   // pour utiliser la validation
 use Symfony\Component\Validator\Constraint;
@@ -41,11 +42,12 @@ class CommandeController implements ControllerProviderInterface
         return $app["twig"]->render('frontOff/Commande/ValidCommand.html.twig',['panier'=>$produitsPanier]);
     }
 
-    public function AddCommand(Application $app, Request $request){
+    public function CreateCommand(Application $app){
         $this->panierModel = new PanierModel($app);
         $this->commandeModel = new CommandeModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
-        $this->commandeModel->AddCommand($produitsPanier,$app['session']->get('idUser'));
+        $PrixTotal = $this->commandeModel->PrixTotal($produitsPanier);
+        $this->commandeModel->CreateCommand($app['session']->get('idUser'),$PrixTotal);
     }
 
 
@@ -53,8 +55,8 @@ class CommandeController implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/ValidCommand', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
-        $controllers->get('/AddCommand', 'App\Controller\CommandeController::AddCommand')->bind('Commande.AddCommand');
+        $controllers->get('/ValideCommande', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
+        $controllers->get('/Commande', 'App\Controller\CommandeController::CreateCommand')->bind('Commande.CreateCommand');
 
         return $controllers;
     }

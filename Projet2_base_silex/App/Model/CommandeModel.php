@@ -7,29 +7,50 @@ use Silex\Application;
 
 //bite
 
-class PanierModel {
+class CommandeModel {
     
     private $db;
 
     public function __construct(Application $app) {
         $this->db = $app['db'];
     }
-    
-    public function addCommand($produits,$idUser,$stock){
+
+//CREATE TABLE IF NOT EXISTS commandes (
+//id int(11) NOT NULL AUTO_INCREMENT,
+//user_id int(11) NOT NULL,
+//prix float(6,2) NOT NULL,
+//date_achat  timestamp default CURRENT_TIMESTAMP,
+//etat_id int(11) NOT NULL,
+//PRIMARY KEY (id),
+//CONSTRAINT fk_commandes_users FOREIGN KEY (user_id) REFERENCES users (id),
+//CONSTRAINT fk_commandes_etats FOREIGN KEY (etat_id) REFERENCES etats (id)
+//) DEFAULT CHARSET=utf8 ;
+
+
+    public function CreateCommand($idUser,$prix){
         $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder->insert('paniers')
+        $queryBuilder->insert('commandes')
             ->values([
-                'quantite' => '?',
-                'prix' => '?',
                 'user_id' => '?',
-                'produit_id' => '?'
+                'prix' => '?',
+                'etat_id' => '?',
             ])
-            ->setParameter(0, $stock)
-            ->setParameter(1, $donnees['prix'])
-            ->setParameter(2, $idUser)
-            ->setParameter(3, $donnees['id'])
+            ->setParameter(0, $idUser)
+            ->setParameter(1,$prix)
+            ->setParameter(2, 1)
         ;
         return $queryBuilder->execute();
     }
-    
+
+    /**
+     * @param $produits
+     * @return int
+     */
+    public function PrixTotal($produits){
+        $prixTotal=0;
+        foreach ($produits as $result){
+            $prixTotal+=$result['prix']*$result['quantite'];
+        }
+        return $prixTotal;
+    }
 }

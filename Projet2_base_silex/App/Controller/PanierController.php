@@ -56,7 +56,6 @@ class PanierController implements ControllerProviderInterface
         $id=$request->get('id');
         $this->panierModel = new PanierModel($app);
         $this->produitModel= new ProduitModel($app);
-
         $donnees=$this->produitModel->getProduit($id);
         $quantite=$this->panierModel->getQuantite($id,$app['session']->get('idUser'));
         if((int)$quantite==null){
@@ -77,11 +76,6 @@ class PanierController implements ControllerProviderInterface
         }else{
            $this->panierModel->decrementQuantite($id,$delete_quantite);
         }
-//        $data['quantite']=$quantite;
-//        $data['id']=$id;
-//        $data['delete_quantite']=$delete_quantite;
-//        return $app["twig"]->render('frontOff/ProduitPanier/showquantite.html.twig',['data'=>$data]);
-
         return $this->showPanier($app);
     }
 
