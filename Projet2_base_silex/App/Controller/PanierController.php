@@ -63,7 +63,8 @@ class PanierController implements ControllerProviderInterface
         }else{
             $this->panierModel->incrementQuantite($id,$app['session']->get('idUser'),$stock);
         }
-        return $this->showPanier($app);
+        return $app->redirect($app["url_generator"]->generate("produit.show"));
+
     }
 
     public function deletePanier(Application $app,Request $request){
@@ -76,7 +77,7 @@ class PanierController implements ControllerProviderInterface
         }else{
            $this->panierModel->decrementQuantite($id,$delete_quantite);
         }
-        return $this->showPanier($app);
+        return $app->redirect($app["url_generator"]->generate("produit.show"));
     }
 
 

@@ -12,16 +12,11 @@ use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
-use Symfony\Component\HttpFoundation\Request;   // pour utiliser request
-
-use App\Model\ProduitModel;
-use App\Model\TypeProduitModel;
 use App\Model\PanierModel;
 use App\Model\CommandeModel;
 
 use Symfony\Component\Validator\Constraints as Assert;   // pour utiliser la validation
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
+
 use Symfony\Component\Security;
 
 class CommandeController implements ControllerProviderInterface
@@ -48,6 +43,7 @@ class CommandeController implements ControllerProviderInterface
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         $PrixTotal = $this->commandeModel->PrixTotal($produitsPanier);
         $this->commandeModel->CreateCommand($app['session']->get('idUser'),$PrixTotal);
+        return $app["twig"]->render('frontOff/Commande/RecapCommand.html.twig',['panier'=>$produitsPanier]);
     }
 
 

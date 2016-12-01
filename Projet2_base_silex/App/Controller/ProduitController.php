@@ -7,16 +7,16 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;   // pour utiliser request
 
 use App\Model\ProduitModel;
+use App\Model\PaniertModel;
 use App\Model\TypeProduitModel;
 
 use Symfony\Component\Validator\Constraints as Assert;   // pour utiliser la validation
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Security;
 
 class ProduitController implements ControllerProviderInterface
 {
     private $produitModel;
+    private $panierController;
     private $typeProduitModel;
 
     public function __construct()
@@ -28,9 +28,8 @@ class ProduitController implements ControllerProviderInterface
     }
 
     public function show(Application $app) {
-        $this->produitModel = new ProduitModel($app);
-        $produits = $this->produitModel->getAllProduits();
-        return $app["twig"]->render('backOff/Produit/show.html.twig',['data'=>$produits]);
+        $this->panierController = new PanierController($app);
+        return $this->panierController->showPanier($app);
     }
 
     public function add(Application $app) {
@@ -79,7 +78,6 @@ class ProduitController implements ControllerProviderInterface
         $this->produitModel = new ProduitModel($app);
         $donnees = $this->produitModel->getProduit($id);
         return $app["twig"]->render('backOff/Produit/delete.html.twig',['typeProduits'=>$typeProduits,'donnees'=>$donnees]);
-        return "add Produit";
     }
 
     public function validFormDelete(Application $app, Request $req) {
@@ -87,7 +85,7 @@ class ProduitController implements ControllerProviderInterface
         if (is_numeric($id)) {
             $this->produitModel = new ProduitModel($app);
             $this->produitModel->deleteProduit($id);
-            return $app->redirect($app["url_generator"]->generate("produit.index"));
+            return $app->redirect($app["url_generator"]->generate("produit.show"));
         }
         else
             return $app->abort(404, 'error Pb id form Delete');
@@ -100,7 +98,6 @@ class ProduitController implements ControllerProviderInterface
         $this->produitModel = new ProduitModel($app);
         $donnees = $this->produitModel->getProduit($id);
         return $app["twig"]->render('backOff/Produit/edit.html.twig',['typeProduits'=>$typeProduits,'donnees'=>$donnees]);
-        return "add Produit";
     }
 
     public function validFormEdit(Application $app, Request $req) {
@@ -140,19 +137,8 @@ class ProduitController implements ControllerProviderInterface
                 ]);
             $errors = $app['validator']->validate($donnees,$contraintes);  // ce n'est pas validateValue
 
-        //    $violationList = $this->get('validator')->validateValue($req->request->all(), $contraintes);
-//var_dump($violationList);
 
-          //   die();
             if (count($errors) > 0) {
-                // foreach ($errors as $error) {
-                //     echo $error->getPropertyPath().' '.$error->getMessage()."\n";
-                // }
-                // //die();
-                //var_dump($erreurs);
-
-            // if(! empty($erreurs))
-            // {
                 $this->typeProduitModel = new TypeProduitModel($app);
                 $typeProduits = $this->typeProduitModel->getAllTypeProduits();
                 return $app["twig"]->render('backOff/Produit/edit.html.twig',['donnees'=>$donnees,'errors'=>$errors,'erreurs'=>$erreurs,'typeProduits'=>$typeProduits]);
