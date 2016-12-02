@@ -39,6 +39,9 @@ class CommandeModel {
             ->setParameter(1,$prix)
             ->setParameter(2, 1)
         ;
+        $queryBuilder->update('paniers')
+            ->set('commande_id =: id')
+            ->setParameter('id = ');
         return $queryBuilder->execute();
     }
 
