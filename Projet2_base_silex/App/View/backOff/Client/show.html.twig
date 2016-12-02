@@ -1,0 +1,28 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+        <div class="row">
+            <div class=" col-lg-6 col-lg-offset-3">
+                <table class="table table-hover">
+                     <caption><h4>Clients</h4></caption>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>e-mail</th>
+                            <th>nom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients if clients is not empty %}
+                            <tr>
+                                <td>{{ client.id }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.login }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

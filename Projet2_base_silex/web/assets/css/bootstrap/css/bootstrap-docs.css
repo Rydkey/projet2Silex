@@ -941,7 +941,7 @@ form.bs-docs-example {
     margin: 0 -20px;
   }
 
-  /* Space out the show-grid examples */
+  /* Space out the Client-grid examples */
   .show-grid [class*="span"] {
     margin-bottom: 5px;
   }

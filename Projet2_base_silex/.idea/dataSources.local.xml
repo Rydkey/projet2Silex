@@ -5,5 +5,10 @@
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
     </data-source>
+    <data-source name="MySQL - BDD_rrisser@serveurmysql" uuid="63e5f242-983f-402a-8bcf-8aee2afa2d66">
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>rrisser</user-name>
+    </data-source>
   </component>
 </project>

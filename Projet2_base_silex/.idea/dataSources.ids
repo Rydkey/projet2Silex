@@ -6,7 +6,7 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
-    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
       <schema id="1" name="projet2"/>
       <table id="2" parent="1" name="etats"/>
       <table id="3" parent="1" name="produits"/>
@@ -54,7 +54,6 @@
       </column>
       <index id="18" parent="3" name="fk_produits_typeProduits">
         <columns>typeProduit_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <key id="19" parent="3" name="PRIMARY">
         <columns>id</columns>
@@ -62,7 +61,7 @@
       </key>
       <foreign-key id="20" parent="3" name="fk_produits_typeProduits">
         <columns>typeProduit_id</columns>
-        <ref-key>~.typeProduits.PRIMARY</ref-key>
+        <ref-key>~.typeProduits.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -142,11 +141,9 @@
       </column>
       <index id="40" parent="6" name="fk_commandes_etats">
         <columns>etat_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <index id="41" parent="6" name="fk_commandes_users">
         <columns>user_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <key id="42" parent="6" name="PRIMARY">
         <columns>id</columns>
@@ -154,13 +151,13 @@
       </key>
       <foreign-key id="43" parent="6" name="fk_commandes_etats">
         <columns>etat_id</columns>
-        <ref-key>~.etats.PRIMARY</ref-key>
+        <ref-key>~.etats.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="44" parent="6" name="fk_commandes_users">
         <columns>user_id</columns>
-        <ref-key>~.users.PRIMARY</ref-key>
+        <ref-key>~.users.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
@@ -195,15 +192,12 @@
       </column>
       <index id="52" parent="7" name="fk_paniers_commandes">
         <columns>commande_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <index id="53" parent="7" name="fk_paniers_produits">
         <columns>produit_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <index id="54" parent="7" name="fk_paniers_users">
         <columns>user_id</columns>
-        <desc-columns></desc-columns>
       </index>
       <key id="55" parent="7" name="PRIMARY">
         <columns>id</columns>
@@ -211,22 +205,25 @@
       </key>
       <foreign-key id="56" parent="7" name="fk_paniers_commandes">
         <columns>commande_id</columns>
-        <ref-key>~.commandes.PRIMARY</ref-key>
+        <ref-key>~.commandes.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="57" parent="7" name="fk_paniers_produits">
         <columns>produit_id</columns>
-        <ref-key>~.produits.PRIMARY</ref-key>
+        <ref-key>~.produits.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="58" parent="7" name="fk_paniers_users">
         <columns>user_id</columns>
-        <ref-key>~.users.PRIMARY</ref-key>
+        <ref-key>~.users.PRIMARY|</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
     </database-model>
+  </data-source>
+  <data-source name="MySQL - BDD_rrisser@serveurmysql" uuid="63e5f242-983f-402a-8bcf-8aee2afa2d66">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>

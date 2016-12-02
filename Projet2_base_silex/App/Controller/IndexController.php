@@ -18,6 +18,4 @@ class IndexController implements ControllerProviderInterface
         $index->match("/", 'App\Controller\IndexController::index')->bind('accueil');
         return $index;
     }
-
-
 }

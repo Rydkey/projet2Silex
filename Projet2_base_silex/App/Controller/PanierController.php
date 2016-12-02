@@ -63,7 +63,7 @@ class PanierController implements ControllerProviderInterface
         }else{
             $this->panierModel->incrementQuantite($id,$app['session']->get('idUser'),$stock);
         }
-        return $app->redirect($app["url_generator"]->generate("produit.show"));
+        return $app->redirect($app["url_generator"]->generate("produit.Client"));
 
     }
 
@@ -77,7 +77,7 @@ class PanierController implements ControllerProviderInterface
         }else{
            $this->panierModel->decrementQuantite($id,$delete_quantite);
         }
-        return $app->redirect($app["url_generator"]->generate("produit.show"));
+        return $app->redirect($app["url_generator"]->generate("produit.Client"));
     }
 
 
@@ -86,7 +86,7 @@ class PanierController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
 
-        $controllers->get('/show', 'App\Controller\PanierController::showPanier')->bind('panier.show');
+        $controllers->get('/Client', 'App\Controller\PanierController::showPanier')->bind('panier.Client');
         $controllers->get('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
         $controllers->post('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
         $controllers->post('/add', 'App\Controller\PanierController::addPanier')->bind('panier.add');

@@ -194,7 +194,7 @@
           self.create({$li : $this, index : index});
         });
 
-        // show first tip
+        // Client first tip
         if (!this.settings.start_timer_on_click && this.settings.timer > 0) {
           this.show('init');
           this.startTimer();

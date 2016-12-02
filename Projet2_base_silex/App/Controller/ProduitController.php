@@ -85,7 +85,7 @@ class ProduitController implements ControllerProviderInterface
         if (is_numeric($id)) {
             $this->produitModel = new ProduitModel($app);
             $this->produitModel->deleteProduit($id);
-            return $app->redirect($app["url_generator"]->generate("produit.show"));
+            return $app->redirect($app["url_generator"]->generate("produit.Client"));
         }
         else
             return $app->abort(404, 'error Pb id form Delete');
@@ -160,7 +160,7 @@ class ProduitController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', 'App\Controller\produitController::index')->bind('produit.index');
-        $controllers->get('/show', 'App\Controller\produitController::show')->bind('produit.show');
+        $controllers->get('/Client', 'App\Controller\produitController::Client')->bind('produit.Client');
 
         $controllers->get('/add', 'App\Controller\produitController::add')->bind('produit.add');
         $controllers->post('/add', 'App\Controller\produitController::validFormAdd')->bind('produit.validFormAdd');

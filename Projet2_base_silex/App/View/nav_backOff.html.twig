@@ -15,7 +15,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('panier.show') }}">afficher les produits</a></li>
+                        <li><a href="{{ path('panier.Client') }}">afficher les produits</a></li>
                         {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
                             <li><a href="{{ path('produit.add') }}"> Ajouter un produit </a></li>
                         {% endif %}
@@ -31,7 +31,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">clients<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"> gestion des clients </a></li>
+                        <li><a href="{{ path('client.show') }}"> gestion des clients </a></li>
                     </ul>
                 </li>
             </ul>

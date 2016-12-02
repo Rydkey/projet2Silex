@@ -1,9 +1,9 @@
 <?php
-define("hostname","localhost"); // ou serveurmysql
+define("hostname","serveurmysql"); // ou serveurmysql
 
-define("database","projet2");
-define("username","root");
-define("password","azerty90*");
+define("database","BDD_rrisser");
+define("username","rrisser");
+define("password","0401");
 
 define('BASE_URL', explode('app_dev.php', $_SERVER['SCRIPT_NAME'])[0]);
 //define("BASE_URL","http://votreURL/");
