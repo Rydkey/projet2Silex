@@ -15,7 +15,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Produits<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('panier.Client') }}">afficher les produits</a></li>
+                        <li><a href="{{ path('panier.show') }}">afficher les produits</a></li>
                         {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
                             <li><a href="{{ path('produit.add') }}"> Ajouter un produit </a></li>
                         {% endif %}
@@ -37,7 +37,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-                <li class="name" style="color: #d58512">Connecté en tant que : {{ app.session.get('login') }}</li>
+                <li><a href="#">Connecté en tant que : {{ app.session.get('login') }}</a></li>
                 <li><a href="{{ path('user.logout')  }}"><span class="glyphicon glyphicon-log-out"></span> Se Déconnecter</a></li>
                 {% else %}
                 <li><a href="{{ path('user.login')  }}">Se connecter</a></li>
