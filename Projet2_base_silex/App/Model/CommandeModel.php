@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Driver\SQLSrv\SQLSrvConnection;
 use Silex\Application;
 
 //bite
@@ -28,8 +27,6 @@ class CommandeModel {
 //) DEFAULT CHARSET=utf8 ;
 
 
-
-
     public function CreateCommand($idUser,$prix){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->insert('commandes')
@@ -42,14 +39,9 @@ class CommandeModel {
             ->setParameter(1,$prix)
             ->setParameter(2, 1)
         ;
-        $queryBuilder->execute();
-        $queryBuilder = new QueryBuilder($this->db);
-        $id_commande=$this->db->lastInsertId();
         $queryBuilder->update('paniers')
-            ->set('commande_id','?')
-            ->where('user_id= ?',$queryBuilder->expr()->isNull('commande_id'))
-            ->setParameter(0,$id_commande)
-            ->setParameter(1,$idUser);
+            ->set('commande_id =: id')
+            ->setParameter('id = ');
         return $queryBuilder->execute();
     }
 
@@ -63,18 +55,5 @@ class CommandeModel {
             $prixTotal+=$result['prix']*$result['quantite'];
         }
         return $prixTotal;
-    }
-
-    public function ShowCommand($idUser)
-    {
-        $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder
-            ->select('c.id','e.libelle')
-            ->from('commandes', 'c')
-            ->where('c.user_id=:id')
-            ->innerJoin('c' ,'etats' ,'e', 'c.etat_id=e.id')
-            ->setParameter('id',(int)$idUser)
-            ->addOrderBy('c.id', 'ASC');
-        return $queryBuilder->execute()->fetchAll();
     }
 }
