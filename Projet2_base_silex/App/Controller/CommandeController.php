@@ -48,7 +48,7 @@ class CommandeController implements ControllerProviderInterface
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         $PrixTotal = $this->commandeModel->PrixTotal($produitsPanier);
         $this->commandeModel->CreateCommand($app['session']->get('idUser'),$PrixTotal);
-        return $app->redirect($app["url_generator"]->generate("Commande.Client"));
+        return $app->redirect($app["url_generator"]->generate("Commande.show"));
     }
 
 
@@ -56,7 +56,7 @@ class CommandeController implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/Client', 'App\Controller\CommandeController::Client')->bind('Commande.Client');
+        $controllers->get('/show', 'App\Controller\CommandeController::show')->bind('Commande.show');
         $controllers->get('/ValideCommande', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
         $controllers->get('/Commande', 'App\Controller\CommandeController::CreateCommand')->bind('Commande.CreateCommand');
 

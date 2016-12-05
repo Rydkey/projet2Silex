@@ -50,7 +50,6 @@ INSERT INTO produits (id,typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (5,2, 'Genkan Shoujo Nozaki Kun','55','genkanshoujo.jpg',1,4),
 (6,3, 'Zetsuen no tempest','5','zetsuennotempest.jpg',1,10);
 
-
 -- --------------------------------------------------------
 -- Structure de la table user
 -- valide permet de rendre actif le compte (exemple controle par email )

@@ -40,12 +40,18 @@ class PanierController implements ControllerProviderInterface
      * @param Application $app
      * @return mixed
      */
-    public function showPanier(Application $app){
+    public function showArticle(Application $app){
         $this->panierModel = new PanierModel($app);
         $this->produitModel = new ProduitModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         $produits = $this->produitModel->getAllProduits();
         return $app["twig"]->render('frontOff/ProduitPanier/show.html.twig',['data'=>$produits, 'panier'=> $produitsPanier]);
+    }    
+    
+    public function showPanier(Application $app){
+        $this->panierModel = new PanierModel($app);
+        $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
+        return $app["twig"]->render('frontOff/ProduitPanier/panierShow.html.twig',['panier'=> $produitsPanier]);
     }
 
     /**
@@ -86,7 +92,8 @@ class PanierController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
 
-        $controllers->get('/show', 'App\Controller\PanierController::showPanier')->bind('panier.show');
+        $controllers->get('/show', 'App\Controller\PanierController::showArticle')->bind('panier.show');
+        $controllers->get('/Panier', 'App\Controller\PanierController::showPanier')->bind('panier.showPanier');
         $controllers->get('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
         $controllers->post('/add/{id}', 'App\Controller\PanierController::addPanier')->bind('panier.add')->assert('id', '\d+');
         $controllers->post('/add', 'App\Controller\PanierController::addPanier')->bind('panier.add');

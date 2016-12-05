@@ -29,7 +29,7 @@ class ProduitController implements ControllerProviderInterface
 
     public function show(Application $app) {
         $this->panierController = new PanierController($app);
-        return $this->panierController->showPanier($app);
+        return $this->panierController->showArticle($app);
     }
 
     public function add(Application $app) {
