@@ -29,5 +29,9 @@ th{
     margin-right: auto;
     text-align: center;
     padding: 20px;
+}
 
+.produit:hover{
+    background-color: slategrey;
+    color: whitesmoke;
 }

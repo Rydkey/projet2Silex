@@ -70,7 +70,7 @@ class CommandeController implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/show', 'App\Controller\CommandeController::show')->bind('Commande.show');
+        $controllers->get('/show', 'App\Controller\CommandeController::showCommand')->bind('Commande.show');
         $controllers->get('/ValideCommande', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
         $controllers->post('/EnvoiCommande', 'App\Controller\CommandeController::EnvoiCommand')->bind('Commande.EnvoiCommand');
         $controllers->get('/Commande', 'App\Controller\CommandeController::CreateCommand')->bind('Commande.CreateCommand');
