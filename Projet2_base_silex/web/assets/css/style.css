@@ -25,6 +25,10 @@ th{
 }
 
 .produit{
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -32,6 +36,6 @@ th{
 }
 
 .produit:hover{
-    background-color: slategrey;
+    background-color: darkgrey;
     color: whitesmoke;
 }

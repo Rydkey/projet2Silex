@@ -83,7 +83,7 @@ class PanierController implements ControllerProviderInterface
         }else{
            $this->panierModel->decrementQuantite($id,$delete_quantite);
         }
-        return $app->redirect($app["url_generator"]->generate("panier.show"));
+        return $app->redirect($app["url_generator"]->generate("panier.showPanier"));
     }
 
 

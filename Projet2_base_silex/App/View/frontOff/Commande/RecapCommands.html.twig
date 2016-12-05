@@ -12,7 +12,7 @@
                     <tbody>
                     {% for commande in data if data is not empty %}
                     <tr class="">
-                        <td>{{ commande.id }}</td><td>{{ commande.date_achat }}</td><td>{{ commande.libelle }}</td>
+                        <td>{{ commande.id }}</td><td>{{ commande.date_achat }}</td><td class="text-warning">{{ commande.libelle }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
