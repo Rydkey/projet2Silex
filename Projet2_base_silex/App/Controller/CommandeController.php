@@ -32,8 +32,9 @@ class CommandeController implements ControllerProviderInterface
     private $commandeModel;
 
     public function ShowCommand(Application $app){
-        $this->commandeModel->ShowCommand();
-        return $app["twig"]->render('frontOff/Commande/RecapCommands.html.twig');
+        $this->commandeModel=new CommandeModel($app);
+        $data=$this->commandeModel->ShowCommand($app['session']->get('idUser'));
+        return $app["twig"]->render('frontOff/Commande/RecapCommands.html.twig',['data'=>$data]);
     }
 
     public function ValidCommand(Application $app){
@@ -48,7 +49,7 @@ class CommandeController implements ControllerProviderInterface
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
         $PrixTotal = $this->commandeModel->PrixTotal($produitsPanier);
         $this->commandeModel->CreateCommand($app['session']->get('idUser'),$PrixTotal);
-        return $app->redirect($app["url_generator"]->generate("Commande.Client"));
+        return $app->redirect($app["url_generator"]->generate("Commande.show"));
     }
 
 
@@ -56,7 +57,7 @@ class CommandeController implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
         
-        $controllers->get('/Client', 'App\Controller\CommandeController::Client')->bind('Commande.Client');
+        $controllers->get('/show', 'App\Controller\CommandeController::ShowCommand')->bind('Commande.show');
         $controllers->get('/ValideCommande', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
         $controllers->get('/Commande', 'App\Controller\CommandeController::CreateCommand')->bind('Commande.CreateCommand');
 
