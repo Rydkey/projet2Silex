@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Driver\SQLSrv\SQLSrvConnection;
 use Silex\Application;
 
 //bite
@@ -39,9 +40,14 @@ class CommandeModel {
             ->setParameter(1,$prix)
             ->setParameter(2, 1)
         ;
+        $queryBuilder->execute();
+        $queryBuilder = new QueryBuilder($this->db);
+        $id_commande=$this->db->lastInsertId();
         $queryBuilder->update('paniers')
-            ->set('commande_id =: id')
-            ->setParameter('id = ');
+            ->set('commande_id','?')
+            ->where('user_id= ?',$queryBuilder->expr()->isNull('commande_id'))
+            ->setParameter(0,$id_commande)
+            ->setParameter(1,$idUser);
         return $queryBuilder->execute();
     }
 
@@ -55,5 +61,40 @@ class CommandeModel {
             $prixTotal+=$result['prix']*$result['quantite'];
         }
         return $prixTotal;
+    }
+
+    public function ShowCommand($idUser)
+    {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('c.id','c.date_achat','e.libelle')
+            ->from('commandes', 'c')
+            ->where('c.user_id=:id')
+            ->innerJoin('c' ,'etats' ,'e', 'c.etat_id=e.id')
+            ->setParameter('id',(int)$idUser)
+            ->addOrderBy('c.id', 'ASC');
+        return $queryBuilder->execute()->fetchAll();
+    }
+
+    public function EnvoiCommand($id)
+    {
+        $queryBuilder=new QueryBuilder($this->db);
+        $queryBuilder
+            ->update("commandes")
+            ->set('etat_id','2')
+            ->where('id=?')
+            ->setParameter(0,$id);
+        return $queryBuilder->execute();
+    }
+
+    public function ShowAllCommand()
+    {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('c.id','u.login','c.date_achat','c.etat_id')
+            ->from('commandes', 'c')
+            ->innerJoin('c' ,'users' ,'u', 'c.user_id=u.id')
+            ->addOrderBy('c.id', 'ASC');
+        return $queryBuilder->execute()->fetchAll();
     }
 }
