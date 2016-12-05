@@ -37,9 +37,9 @@ class CommandeController implements ControllerProviderInterface
         if ($app['session']->get('droit')=="DROITclient") {
             $data=$this->commandeModel->ShowCommand($app['session']->get('idUser'));
             return $app["twig"]->render('frontOff/Commande/RecapCommands.html.twig', ['data' => $data]);
-        }else{
+        }else if ($app['session']->get('droit')=="DROITadmin") {
             $data=$this->commandeModel->ShowAllCommand();
-            return $app["twig"]->render('backoff/Commande/RecapCommands.html.twig', ['data' => $data]);
+            return $app["twig"]->render('backOff/Commande/RecapCommands.html.twig', ['data' => $data]);
         }
     }
 
