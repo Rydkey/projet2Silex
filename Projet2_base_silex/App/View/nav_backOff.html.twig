@@ -37,7 +37,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-                <li><a href="#">Connecté en tant que : {{ app.session.get('login') }}</a></li>
+                <li><a href="#">Bienvenue {{ app.session.get('login') }}</a></li>
                 <li><a href="{{ path('user.logout')  }}"><span class="glyphicon glyphicon-log-out"></span> Se Déconnecter</a></li>
                 {% else %}
                 <li><a href="{{ path('user.login')  }}">Se connecter</a></li>
