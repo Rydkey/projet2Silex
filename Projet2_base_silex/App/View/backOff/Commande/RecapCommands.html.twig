@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+        <div class="row">
+            <div class="col-md-6 col-lg-offset-3">
+                <table class="table table-responsive table-bordered">
+                    <caption><h4>Mes Commandes</h4></caption>
+                    <thead>
+                    <tr class="table text-capitalize"><th>Numéro de Commande</th><th>nom du client</th><th>Date d'achat</th><th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for commande in data if data is not empty %}
+                    <tr class="">
+                        <td>{{ commande.id }}</td><td>{{ commande.login }}</td><td>{{ commande.date_achat }}</td>{% if (commande.etat_id==1) %}<td><form method="post"action="{{ path('Commande.EnvoiCommand') }}"><button name="id" value="{{ commande.id }}">Envoyé la commande</button></form></td>{% else %}<td>Envoyé</td>{% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
