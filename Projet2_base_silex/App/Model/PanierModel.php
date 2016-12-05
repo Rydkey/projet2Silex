@@ -37,7 +37,7 @@ class PanierModel {
             ->select('p.id', 'p.nom', 'p.prix','pa.quantite','p.photo','pa.id as idPanier')
             ->from('produits', 'p')
             ->innerJoin('p', 'paniers', 'pa', 'p.id=pa.produit_id')
-            ->where('pa.user_id=:id')
+            ->where('pa.user_id=:id',$queryBuilder->expr()->isNull('commande_id'))
             ->setParameter('id',(int)$idUser)
             ->addOrderBy('p.nom', 'ASC');
         return $queryBuilder->execute()->fetchAll();
