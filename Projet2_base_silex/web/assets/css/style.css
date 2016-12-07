@@ -36,6 +36,6 @@ th{
 }
 
 .produit:hover{
-    background-color: darkgrey;
+    background-color: darkred;
     color: whitesmoke;
 }

@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
     <div class="col-lg-12">
             {% for produit in data if data is not empty %}
                 {% set breakloop = false %}
@@ -22,7 +22,6 @@
                                 <a href="{{ path('produit.edit', {id: produit.id}) }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon glyphicon-edit"></span>Modifier</button></a>
                                 <a href="{{ path('produit.delete', {id: produit.id}) }}"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon glyphicon-minus"></span>supprimer</button></a>
                             </p>
-                        </div>
                         {% endif %}
                         {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
                             <p class="text-center">
@@ -47,12 +46,11 @@
                                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-plus"></span> Ajouter</button>
                                 </form>
                             </p>
-                            </div>
                         {% else %}
                                 Plus de livres en stock
-                                </div>
                         {% endif %}
                     {% endif %}
+                </div>
                 </div>
             {% endfor %}
     </div>

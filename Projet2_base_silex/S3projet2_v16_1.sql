@@ -49,7 +49,7 @@ INSERT INTO produits (id,typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (4,3, 'Dragon Ball Z','8','dragonballz.jpg',1,5),
 (5,2, 'Genkan Shoujo Nozaki Kun','55','genkanshoujo.jpg',1,4),
 (6,3, 'Zetsuen no tempest','5','zetsuennotempest.jpg',1,10),
-(7,3, 'One Piece','5.45','onepiece .jpg',1,10);
+(7,3, 'One Piece','5.45','onepiece.png',1,10);
 
 
 -- --------------------------------------------------------
