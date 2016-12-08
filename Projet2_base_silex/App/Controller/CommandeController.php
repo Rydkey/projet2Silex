@@ -13,6 +13,7 @@ use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
 use App\Model\PanierModel;
+use App\Model\ProduitModel;
 use App\Model\CommandeModel;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,7 @@ class CommandeController implements ControllerProviderInterface
      *
      * @return ControllerCollection A ControllerCollection instance
      */
+    private $produitModel;
     private $panierModel;
     private $commandeModel;
 
@@ -50,9 +52,21 @@ class CommandeController implements ControllerProviderInterface
     }
 
     public function CreateCommand(Application $app){
+        $this->produitModel = new ProduitModel($app);
         $this->panierModel = new PanierModel($app);
         $this->commandeModel = new CommandeModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
+        foreach ($produitsPanier as $key){
+            $donnees = $this->produitModel->getProduit($key['id']);
+            $no=0;
+            for ($i=0;$i<count($produitsPanier);$i++){
+                if ($produitsPanier[$i]['id']==$key['id']){
+                    $no=$i;
+                }
+            }
+            $donnees['stock']=$donnees['stock']-$produitsPanier[$no]['quantite'];
+            $this->produitModel->updateProduit($donnees);
+        }
         $PrixTotal = $this->commandeModel->PrixTotal($produitsPanier);
         $this->commandeModel->CreateCommand($app['session']->get('idUser'),$PrixTotal);
         return $app->redirect($app["url_generator"]->generate("Commande.show"));

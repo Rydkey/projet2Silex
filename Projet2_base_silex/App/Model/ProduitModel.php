@@ -49,7 +49,7 @@ class ProduitModel {
     function getProduit($id) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('id', 'typeProduit_id', 'nom', 'prix', 'photo')
+            ->select('id', 'typeProduit_id', 'nom', 'prix', 'photo','stock')
             ->from('produits')
             ->where('id= :id')
             ->setParameter('id', $id);
@@ -64,12 +64,14 @@ class ProduitModel {
             ->set('typeProduit_id','?')
             ->set('prix','?')
             ->set('photo','?')
+            ->set('stock','?')
             ->where('id= ?')
             ->setParameter(0, $donnees['nom'])
             ->setParameter(1, $donnees['typeProduit_id'])
             ->setParameter(2, $donnees['prix'])
             ->setParameter(3, $donnees['photo'])
-            ->setParameter(4, $donnees['id']);
+            ->setParameter(4, $donnees['stock'])
+            ->setParameter(5, $donnees['id']);
         return $queryBuilder->execute();
     }
 

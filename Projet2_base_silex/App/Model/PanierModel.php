@@ -34,10 +34,10 @@ class PanierModel {
     public function getUserLigneCommande($idUser){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('p.id', 'p.nom', 'p.prix','pa.quantite','p.photo','pa.id as idPanier')
+            ->select('p.id', 'p.nom', 'p.prix','pa.quantite','p.photo','pa.id as idPanier','pa.quantite')
             ->from('produits', 'p')
             ->innerJoin('p', 'paniers', 'pa', 'p.id=pa.produit_id')
-            ->where('pa.user_id=:id')
+            ->where('pa.user_id=:id',$queryBuilder->expr()->isNull('pa.commande_id'))
             ->setParameter('id',(int)$idUser)
             ->addOrderBy('p.nom', 'ASC');
         return $queryBuilder->execute()->fetchAll();
@@ -82,7 +82,7 @@ class PanierModel {
         $queryBuilder
             ->select('quantite')
             ->from('paniers')
-            ->where('user_id= ?','produit_id= ?')
+            ->where('user_id= ?','produit_id= ?',$queryBuilder->expr()->isNull('commande_id'))
             ->setParameter(0,$idUser)
             ->setParameter(1,$id);
         return $queryBuilder->execute()->fetch();
