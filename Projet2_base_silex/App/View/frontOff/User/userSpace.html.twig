@@ -1,0 +1,97 @@
+{% extends 'layout.html.twig' %}
+{% block contenu %}
+{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+    {% for client in clients if clients is not empty %}
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ app.session.get('login') }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Login</td>
+                                        <td>
+                                            {{ app.session.get('login') }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nom</td>
+                                        <td>
+                                            {% if client.nom is not empty %}
+                                                {{ client.nom }}
+                                            {% else %}
+                                                <div class="text-danger">non renseigné</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Adresse</td>
+                                        <td>
+                                            {% if client.adresse is not empty %}
+                                                {{ client.adresse }}
+                                            {% else %}
+                                                <div class="text-danger">non renseigné</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>Ville</td>
+                                        <td>
+                                            {% if client.ville is not empty %}
+                                                {{ client.ville }}
+                                            {% else %}
+                                                <div class="text-danger">non renseigné</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code postal</td>
+                                        <td>
+                                            {% if client.code_postal is not empty %}
+                                                {{ client.code_postal }}
+                                            {% else %}
+                                                <div class="text-danger">non renseigné</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Email</td>
+                                        <td><a href="mailto:manga-buyers@support.com">{{ client.email }}</a></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                                <a href="{{ path('panier.showPanier') }}" class="btn btn-primary">Mon Panier</a>
+                                <a href="{{ path('Commande.show') }}" class="btn btn-primary">Mes commandes</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer pull-right">
+                        <a href="{{ path('user.modif') }}" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit">Modifier</i></a>
+                        <a href="{{ path('user.logout') }}" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> se déconnecter</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

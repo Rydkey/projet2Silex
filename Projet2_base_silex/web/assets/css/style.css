@@ -39,3 +39,10 @@ th{
     background-color: darkred;
     color: whitesmoke;
 }
+
+.imageProduit{
+    width: 480px;
+    height: 400px;
+    max-width: 75%;
+    max-height: 75%;
+}

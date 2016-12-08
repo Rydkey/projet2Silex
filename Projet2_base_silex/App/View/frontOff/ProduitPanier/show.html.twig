@@ -11,9 +11,9 @@
                         {% set breakloop=true %}
                     {% endif %}
                 {% endfor %}
-                <div class="col-lg-3">
+                <div class="col-lg-3 container">
                     <div class="produit">
-                        <img style="width:300px;height:480px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" >
+                        <img class="imageProduit" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" >
                         <h4>{{produit.nom}}</h4>
                         <p>{{produit.libelle}}</p>
                         <p>{{produit.prix}} €</p>

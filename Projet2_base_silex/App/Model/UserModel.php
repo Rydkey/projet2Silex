@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 class UserModel {
@@ -18,5 +19,15 @@ class UserModel {
 			return $res->fetch();
 		else
 			return false;
+	}
+
+	public function getUser($id){
+		$queryBuilder= new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('*')
+            ->from('users')
+            ->where('id=?')
+            ->setParameter(0,$id);
+        return $queryBuilder->execute();
 	}
 }

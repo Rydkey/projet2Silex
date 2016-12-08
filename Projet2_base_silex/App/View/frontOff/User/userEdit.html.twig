@@ -1,0 +1,56 @@
+{% extends 'layout.html.twig' %}
+{% block contenu %}
+{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+    {% for infos in clients if clients is not empty %}
+        <form method="post" action="{{ path('user.validFormEdit') }}">
+            <div class="row">
+                <hr>
+                <div class="row corp modal-content col-lg-6 col-lg-offset-3">
+                    <fieldset>
+                        <legend>Modifier vos infos, {{ app.session.get('login') }}</legend>
+                        <input name="id"  type="hidden" value="{{infos.id|default('')}}" />
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Nom</label>
+                                <div class="col-xs-10">
+                                    <input class="form-control"name="nom"  type="text"  size="18" value="{{infos.nom|default('')}}" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-xs-2 col-form-label">adresse</label>
+                                <div class="col-xs-10">
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.adresse|default('')}}"/>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Ville</label>
+                                <div class="col-xs-10">
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.ville|default('')}}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Code Postal</label>
+                                <div class="col-xs-10">
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.code_postal|default('')}}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-xs-2 col-form-label">email *</label>
+                                <div class="col-xs-10">
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.email|default('')}}"/>
+                                </div>
+                            </div>
+                            <input type="hidden" id="_method" name="_method" value="put" />
+
+                            <hr>
+                            <button type="submit" class="btn btn-success btn-block" value="modifier"><span class="glyphicon glyphicon-edit"></span> Modifier</button>
+                            <hr>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    {% endfor %}
+{% endif %}
+{% endblock %}

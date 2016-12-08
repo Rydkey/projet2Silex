@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Model\UserModel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController implements ControllerProviderInterface {
 
@@ -48,6 +49,25 @@ class UserController implements ControllerProviderInterface {
 		$app['session']->getFlashBag()->add('msg', 'vous êtes déconnecté');
 		return $app->redirect($app["url_generator"]->generate("accueil"));
 	}
+	
+	public function showUser(Application $app){
+		$this->userModel=new UserModel($app);
+		$clients=$this->userModel->getUser($app['session']->get('idUser'));
+		return $app['twig']->render('frontOff/User/userSpace.html.twig',['clients'=> $clients ]);
+	}
+	
+	public function editUser(Application $app){
+		$this->userModel=new UserModel($app);
+		$clients = $this->userModel->getUser($app['session']->get('idUser'));
+		return $app['twig']->render('frontOff/User/userEdit.html.twig',['clients'=>$clients]);
+	}
+
+    public function validFormEdit(Application $app, Request $req){
+        if(isset($_POST['login']) && isset($_POST['email']))
+            $donnees=[
+                'nom'=>htmlspecialchars($_POST['nom'])
+        ];
+    }
 
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
@@ -55,6 +75,9 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+		$controllers->get('/personalSpace', 'App\Controller\UserController::showUser')->bind('user.space');
+		$controllers->get('/editProfile', 'App\Controller\UserController::editUser')->bind('user.modif');
+		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('user.validFormEdit');
 		return $controllers;
 	}
 }
