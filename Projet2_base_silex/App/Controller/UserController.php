@@ -63,28 +63,34 @@ class UserController implements ControllerProviderInterface {
 	}
 
     public function validFormEdit(Application $app){
-        if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['ville']) && isset($_POST['code_postal']) && isset($_POST['email'])) {
-            $clients = [
-                'nom' => htmlspecialchars($_POST['nom']),
-                'adresse' => htmlspecialchars($_POST['adresse']),
-                'ville' => htmlspecialchars($_POST['ville']),
-                'code_postal' => htmlspecialchars($_POST['code_postal']),
-                'email' => htmlspecialchars($_POST['email']),
-            ];
-            if ((!preg_match("/^[A-Za-z ]{2,}/", $clients['nom']))) $erreurs['nom'] = 'nom composé de 2 lettres minimum';
-            if ((!preg_match("/^[A-Za-z ]{2,}/", $clients['adresse']))) $erreurs['adresse'] = 'adresse composé de 2 lettres minimum';
+        if (isset($_POST['nom'])){
+            $clients['nom'] = htmlspecialchars($_POST['nom']);
+            if ((!preg_match("/[A-Za-z0-9]{2,}/", $clients['nom']))) $erreurs['nom'] = 'nom composé de 2 lettres minimum';
+        }
+        if (isset($_POST['adresse'])) {
+            $clients['adresse'] = htmlspecialchars($_POST['adresse']);
+            if ((!preg_match("/[A-Za-z0-9]{2,}/", $clients['adresse']))) $erreurs['adresse'] = 'adresse composé de 2 lettres minimum';
+        }
+        if (isset($_POST['ville'])) {
+            $clients['ville'] = htmlspecialchars($_POST['ville']);
             if ((!preg_match("/^[A-Za-z ]{2,}/", $clients['ville']))) $erreurs['ville'] = 'ville composé de 2 lettres minimum';
-            if (!is_numeric($clients['code_postal'])) $erreurs['code_postal'] = 'veuillez saisir une valeur';
+        }
+        if (isset($_POST['code_postal'])){
+            $clients['code_postal'] = htmlspecialchars($_POST['code_postal']);
+            if (!is_numeric($clients['code_postal'])) $erreurs['code_postal'] = 'veuillez saisir une valeur numérique';
+        }
+        if (isset($_POST['email'])) {
+            $clients['email'] = htmlspecialchars($_POST['email']);
             if (!filter_var($clients['email'], FILTER_VALIDATE_EMAIL)) {
-                $erreurs['email'] = "Invalid email format";
+                $erreurs['email'] = "format invalide";
             };
-            if (count($erreurs) > 0) {
-                return $app["twig"]->render('frontOff/User/userEdit.html.twig', ['clients' => $clients, 'erreurs' => $erreurs]);
-            } else {
+        }
+        if (!empty($erreurs)) {
+            return $app["twig"]->render('frontOff/User/userEdit.html.twig', ['clients' => $clients, 'erreurs' => $erreurs]);
+        } else {
+            $this->userModel=new UserModel($app);
+            $this->userModel->updateUser($app['session']->get('idUser'),$clients);
             return $this->showUser($app);
-            }
-        }else{
-            return 'bite';
         }
     }
 

@@ -28,6 +28,26 @@ class UserModel {
             ->from('users')
             ->where('id=?')
             ->setParameter(0,$id);
+        return $queryBuilder->execute()->fetch();
+	}
+
+	public function updateUser($id,$donnees){
+		$queryBuilder= new QueryBuilder($this->db);
+        $queryBuilder
+            ->update('users')
+            ->set('nom', '?')
+            ->set('adresse','?')
+            ->set('ville','?')
+            ->set('code_postal','?')
+            ->set('email','?')
+            ->where('id= ?')
+            ->setParameter(0, $donnees['nom'])
+            ->setParameter(1, $donnees['adresse'])
+            ->setParameter(2, $donnees['ville'])
+            ->setParameter(3, $donnees['code_postal'])
+            ->setParameter(4, $donnees['email'])
+            ->setParameter(5, $id);
         return $queryBuilder->execute();
+
 	}
 }

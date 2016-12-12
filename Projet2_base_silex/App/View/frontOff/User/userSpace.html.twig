@@ -1,7 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% block contenu %}
 {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-    {% for client in clients if clients is not empty %}
     <hr>
     <div class="container">
         <div class="row">
@@ -30,8 +29,8 @@
                                     <tr>
                                         <td>Nom</td>
                                         <td>
-                                            {% if client.nom is not empty %}
-                                                {{ client.nom }}
+                                            {% if clients.nom is not empty %}
+                                                {{ clients.nom }}
                                             {% else %}
                                                 <div class="text-danger">non renseigné</div>
                                             {% endif %}
@@ -40,8 +39,8 @@
                                     <tr>
                                         <td>Adresse</td>
                                         <td>
-                                            {% if client.adresse is not empty %}
-                                                {{ client.adresse }}
+                                            {% if clients.adresse is not empty %}
+                                                {{ clients.adresse }}
                                             {% else %}
                                                 <div class="text-danger">non renseigné</div>
                                             {% endif %}
@@ -52,8 +51,8 @@
                                     <tr>
                                         <td>Ville</td>
                                         <td>
-                                            {% if client.ville is not empty %}
-                                                {{ client.ville }}
+                                            {% if clients.ville is not empty %}
+                                                {{ clients.ville }}
                                             {% else %}
                                                 <div class="text-danger">non renseigné</div>
                                             {% endif %}
@@ -62,8 +61,8 @@
                                     <tr>
                                         <td>Code postal</td>
                                         <td>
-                                            {% if client.code_postal is not empty %}
-                                                {{ client.code_postal }}
+                                            {% if clients.code_postal is not empty %}
+                                                {{ clients.code_postal }}
                                             {% else %}
                                                 <div class="text-danger">non renseigné</div>
                                             {% endif %}
@@ -72,7 +71,7 @@
 
                                     <tr>
                                         <td>Email</td>
-                                        <td><a href="mailto:manga-buyers@support.com">{{ client.email }}</a></td>
+                                        <td><a href="mailto:manga-buyers@support.com">{{ clients.email }}</a></td>
                                     </tr>
 
                                     </tbody>
@@ -86,12 +85,12 @@
                     <div class="panel-footer pull-right">
                         <a href="{{ path('user.modif') }}" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit">Modifier</i></a>
                         <a href="{{ path('user.logout') }}" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> se déconnecter</a>
+                        <a href="{{ path('user.logout') }}" data-original-title="passwd" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> changer mot de passe</a>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
-    {% endfor %}
 {% endif %}
 {% endblock %}
