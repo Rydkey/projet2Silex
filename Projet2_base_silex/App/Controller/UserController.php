@@ -90,9 +90,38 @@ class UserController implements ControllerProviderInterface {
         } else {
             $this->userModel=new UserModel($app);
             $this->userModel->updateUser($app['session']->get('idUser'),$clients);
-            return $this->showUser($app);
+            return $app->redirect($app["url_generator"]->generate("user.space"));
         }
     }
+    
+    public function editMDP(Application $app){
+        $this->userModel=new UserModel($app);
+        $clients = $this->userModel->getUser($app['session']->get('idUser'));
+        return $app['twig']->render('frontOff/User/userEditMDP.html.twig',['clients'=>$clients]);
+    }
+    
+    public function validFormEditMDP(Application $app)
+    {
+        $this->userModel = new UserModel($app);
+        if (isset($_POST['oldMDP'])) {
+            $clients['oldMDP'] = htmlspecialchars($_POST['oldMDP']);
+            $data = $this->userModel->verif_login_mdp_Utilisateur($app['session']->get('login'), $clients['oldMDP']);
+//            if ($data != NULL) $erreurs['oldMDP'] = 'Mauvais mot de passe';
+        }
+        if (isset($_POST['newMDP'])) {
+            $clients['newMDP'] = htmlspecialchars($_POST['newMDP']);
+            $data = $this->userModel->verif_login_mdp_Utilisateur($app['session']->get('login'), $clients['newMDP']);
+            if ($data != NULL) $erreurs['newMDP'] = 'Entrez un mot de passe différent';
+        }
+        if (!empty($erreurs)) {
+            return $app["twig"]->render('frontOff/User/userEditMDP.html.twig', ['clients' => $clients, 'erreurs' => $erreurs]);
+        } else {
+            $this->userModel = new UserModel($app);
+            $this->userModel->updateMDP($app['session']->get('idUser'), $clients);
+            return $app->redirect($app["url_generator"]->generate("user.space"));
+        }
+    }
+
 
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
@@ -103,6 +132,8 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/personalSpace', 'App\Controller\UserController::showUser')->bind('user.space');
 		$controllers->get('/editProfile', 'App\Controller\UserController::editUser')->bind('user.modif');
 		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('user.validFormEdit');
+		$controllers->get('/editMDP', 'App\Controller\UserController::editMDP')->bind('user.modifMDP');
+		$controllers->post('/validEditMDP', 'App\Controller\UserController::validFormEditMDP')->bind('user.validFormEditMDP');
 		return $controllers;
 	}
 }

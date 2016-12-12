@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+{% block contenu %}
+{% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+    <form method="post" action="{{ path('user.validFormEditMDP') }}">
+        <div class="row">
+        <hr>
+            <div class="row corp modal-content col-lg-6 col-lg-offset-3">
+            <fieldset>
+            <legend>Modifier votre mdp, {{ app.session.get('login') }}</legend>
+            <input name="id"  type="hidden" value="{{clients.login|default('')}}" />
+            <div class="form-group">
+            <div class="form-group row">
+                <label for="example-text-input" class="col-xs-2 col-form-label">Ancien mot de passe *</label>
+                <div class="col-xs-10">
+                    <input class="form-control"name="oldMDP"  type="password"  size="18" value="" />
+                </div>
+            </div>
+            {% if erreurs.oldMDP is defined %}
+                <div class="alert alert-danger ">
+                    <strong>Erreur!</strong> {{erreurs.oldMDP}}
+                </div>
+            {% endif %}
+            <div class="form-group row">
+                <label for="example-text-input" class="col-xs-2 col-form-label">Nouveau mot de passe *</label>
+                <div class="col-xs-10">
+                    <input class="form-control"name="newMDP"  type="password"  size="18" value="" />
+                </div>
+            </div>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-xs-2 col-form-label">Confirmer nouveau mot de passe *</label>
+                <div class="col-xs-10">
+                    <input class="form-control"name="newMDP"  type="password"  size="18" value="" />
+                </div>
+            </div>
+            {% if erreurs.newMDP is defined %}
+                <div class="alert alert-danger ">
+                    <strong>Erreur!</strong> {{erreurs.newMDP}}
+                </div>
+            {% endif %}
+                <button type="submit" class="btn btn-success btn-block" value="modifier"><span class="glyphicon glyphicon-edit"></span> Modifier</button>
+                <hr>
+            </fieldset>
+            </div>
+            <hr>
+            <hr>
+        </div>
+    </form>
+{% endif %}
+{% endblock %}

@@ -49,7 +49,6 @@ class CommandeController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
         $this->produitModel = new ProduitModel($app);
         $produitsPanier = $this->panierModel->getLigneCommandeById($id);
-        $produits = $this->produitModel->getAllProduits();
         return $app["twig"]->render('frontOff/Commande/DetailsCommande.html.twig',['panier'=> $produitsPanier]);
     }
 

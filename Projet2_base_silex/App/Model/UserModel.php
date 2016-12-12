@@ -50,4 +50,15 @@ class UserModel {
         return $queryBuilder->execute();
 
 	}
+	public function updateMDP($id,$donnees){
+		$queryBuilder= new QueryBuilder($this->db);
+        $queryBuilder
+            ->update('users')
+            ->set('password', '?')
+            ->where('id= ?')
+            ->setParameter(0, $donnees['newMDP'])
+            ->setParameter(1, $id);
+        return $queryBuilder->execute();
+
+	}
 }
