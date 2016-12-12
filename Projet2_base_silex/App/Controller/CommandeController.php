@@ -45,6 +45,14 @@ class CommandeController implements ControllerProviderInterface
         }
     }
 
+    public function ShowDetailsCommand(Application $app,$id){
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel = new ProduitModel($app);
+        $produitsPanier = $this->panierModel->getLigneCommandeById($id);
+        $produits = $this->produitModel->getAllProduits();
+        return $app["twig"]->render('frontOff/Commande/DetailsCommande.html.twig',['panier'=> $produitsPanier]);
+    }
+
     public function ValidCommand(Application $app){
         $this->panierModel = new PanierModel($app);
         $produitsPanier = $this->panierModel->getUserLigneCommande($app['session']->get('idUser'));
@@ -88,6 +96,7 @@ class CommandeController implements ControllerProviderInterface
         $controllers->get('/ValideCommande', 'App\Controller\CommandeController::ValidCommand')->bind('Commande.ValidCommand');
         $controllers->post('/EnvoiCommande', 'App\Controller\CommandeController::EnvoiCommand')->bind('Commande.EnvoiCommand');
         $controllers->get('/Commande', 'App\Controller\CommandeController::CreateCommand')->bind('Commande.CreateCommand');
+        $controllers->get('/showDetails/{id}', 'App\Controller\CommandeController::showDetailsCommand')->bind('Commande.showDetails')->assert('id', '\d+');
 
         return $controllers;
     }

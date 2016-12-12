@@ -133,4 +133,18 @@ class PanierModel {
             ->setParameter(0,$id);
         return $queryBuilder->execute()->fetch();
     }
+
+    public function getLigneCommandeById($id)
+    {
+
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('p.id', 'p.nom', 'p.prix','pa.quantite','p.photo','pa.id as idPanier','pa.quantite','pa.commande_id')
+            ->from('produits', 'p')
+            ->innerJoin('p', 'paniers', 'pa', 'p.id=pa.produit_id')
+            ->where('pa.commande_id=:id')
+            ->setParameter('id',(int)$id)
+            ->addOrderBy('p.nom', 'ASC');
+        return $queryBuilder->execute()->fetchAll();
+    }
 }
