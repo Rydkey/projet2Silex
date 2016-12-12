@@ -24,7 +24,7 @@ class UserModel {
 	public function getUser($id){
 		$queryBuilder= new QueryBuilder($this->db);
         $queryBuilder
-            ->select('*')
+            ->select('nom','adresse','ville','code_postal','email')
             ->from('users')
             ->where('id=?')
             ->setParameter(0,$id);

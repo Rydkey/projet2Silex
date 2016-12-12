@@ -142,18 +142,17 @@ class ProduitController implements ControllerProviderInterface
                 $this->typeProduitModel = new TypeProduitModel($app);
                 $typeProduits = $this->typeProduitModel->getAllTypeProduits();
                 return $app["twig"]->render('backOff/Produit/edit.html.twig',['donnees'=>$donnees,'errors'=>$errors,'erreurs'=>$erreurs,'typeProduits'=>$typeProduits]);
-            }
-            else
-            {
+            } else {
                 $this->ProduitModel = new ProduitModel($app);
                 $this->ProduitModel->updateProduit($donnees);
                 return $app->redirect($app["url_generator"]->generate("produit.index"));
             }
 
         }
-        else
+        else{
+            
+        }
             return $app->abort(404, 'error Pb id form edit');
-
     }
 
     public function connect(Application $app) {  //http://silex.sensiolabs.org/doc/providers.html#controller-providers

@@ -1,46 +1,69 @@
 {% extends 'layout.html.twig' %}
 {% block contenu %}
 {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-    {% for infos in clients if clients is not empty %}
         <form method="post" action="{{ path('user.validFormEdit') }}">
             <div class="row">
                 <hr>
                 <div class="row corp modal-content col-lg-6 col-lg-offset-3">
                     <fieldset>
                         <legend>Modifier vos infos, {{ app.session.get('login') }}</legend>
-                        <input name="id"  type="hidden" value="{{infos.id|default('')}}" />
+                        <input name="id"  type="hidden" value="{{clients.id|default('')}}" />
                         <div class="form-group">
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-xs-2 col-form-label">Nom</label>
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Nom (*)</label>
                                 <div class="col-xs-10">
-                                    <input class="form-control"name="nom"  type="text"  size="18" value="{{infos.nom|default('')}}" />
+                                    <input class="form-control"name="nom"  type="text"  size="18" value="{{clients.nom|default('')}}" />
                                 </div>
                             </div>
+                            {% if erreurs.nom is defined %}
+                                <div class="alert alert-danger ">
+                                    <strong>Erreur!</strong> {{erreurs.nom}}
+                                </div>
+                            {% endif %}
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-xs-2 col-form-label">adresse</label>
+                                <label for="example-text-input" class="col-xs-2 col-form-label">adresse (*)</label>
                                 <div class="col-xs-10">
-                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.adresse|default('')}}"/>
-
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{clients.adresse|default('')}}"/>
                                 </div>
                             </div>
+                            {% if erreurs.adresse is defined %}
+                                <div class="alert alert-danger ">
+                                    <strong>Erreur!</strong> {{erreurs.adresse}}
+                                </div>
+                            {% endif %}
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-xs-2 col-form-label">Ville</label>
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Ville (*)</label>
                                 <div class="col-xs-10">
-                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.ville|default('')}}"/>
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{clients.ville|default('')}}"/>
                                 </div>
                             </div>
+                            {% if erreurs.ville is defined %}
+                                <div class="alert alert-danger ">
+                                    <strong>Erreur!</strong> {{erreurs.ville}}
+                                </div>
+                            {% endif %}
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-xs-2 col-form-label">Code Postal</label>
+                                <label for="example-text-input" class="col-xs-2 col-form-label">Code Postal (*)</label>
                                 <div class="col-xs-10">
-                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.code_postal|default('')}}"/>
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{clients.code_postal|default('')}}"/>
                                 </div>
                             </div>
+                            {% if erreurs.code_postal is defined %}
+                                <div class="alert alert-danger ">
+                                    <strong>Erreur!</strong> {{erreurs.code_postal}}
+                                </div>
+                            {% endif %}
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-xs-2 col-form-label">email *</label>
+                                <label for="example-text-input" class="col-xs-2 col-form-label">email (*)</label>
                                 <div class="col-xs-10">
-                                    <input name="photo" class="form-control" type="text"  size="18" value="{{infos.email|default('')}}"/>
+                                    <input name="photo" class="form-control" type="text"  size="18" value="{{clients.email|default('')}}"/>
                                 </div>
                             </div>
+                            {% if erreurs.email is defined %}
+                                <div class="alert alert-danger ">
+                                    <strong>Erreur!</strong> {{erreurs.email}}
+                                </div>
+                            {% endif %}
                             <input type="hidden" id="_method" name="_method" value="put" />
 
                             <hr>
@@ -51,6 +74,5 @@
                 </div>
             </div>
         </form>
-    {% endfor %}
 {% endif %}
 {% endblock %}
